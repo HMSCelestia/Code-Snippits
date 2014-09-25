@@ -1,0 +1,95 @@
+#array containing menu options
+menuOptions = ("0 - Enter a number.", "1 - Display current number.", 
+			   "2 - Divisibility checking.", "3 - Perfect checking.",
+			   "4 - Triangular checking.", "5 - Quit.")
+global userNumber
+
+def factorFinder(): #finds the factors of the user's defined number
+	factors = []
+	for x in range(1, userNumber):
+		if(userNumber/float(x) == userNumber//float(x)):
+			print(userNumber/float(x))
+			factors.append(x)
+			
+	return factors
+
+def triangularNumberFinder():
+	global userNumber
+	#these vars store the information for the while-loop's execution
+	greatestTriNum = 1
+	triNumList = []
+	triNumIndex = 0
+	#builds list of triNums up to one greater than the user's number
+	while(greatestTriNum < userNumber): 
+		triNumIndex += 1
+		greatestTriNum = (triNumIndex*(triNumIndex + 1))/2
+		triNumList.append(greatestTriNum)
+	#returns the newly built list of triangular numbers for use in opt4
+	return triNumList
+		
+
+def optionSelect(): #user selects option here
+	selection = -1
+	for option in menuOptions:
+		print(option)#prints out menu options
+	selection = int(input())
+	while(selection < 0 or selection > 5):
+		print("I didnt understand, please try again. \n")
+		for option in menuOptions:
+			print(option)
+		selection = int(input("Please make a choice: "))#checks for valid input
+	return selection
+	
+
+def optionZero():
+	global userNumber
+	print("What is your number?")
+	userNumber = int(input())
+	while userNumber <= 0:
+		print("Must be positive, please! What is your number?")
+		userNumber = int(input())
+
+def optionOne():
+		#this try/catch checks whether the user has entered a number
+	try:
+		userNumber
+	except NameError:
+		print("WARNING \nNO VALID INPUT DETECTED.\n" +
+			  "Please choose OPTION ZERO to input a number.")
+	else:
+		print("The current number is " + str(userNumber) + ". \n")
+
+def optionTwo():
+	sum = 0 #stores the sum of the digits 
+	for num in str(userNumber):
+		sum += int(num)
+	if(sum%3 == 0):
+		print(str(userNumber) + ": is a multiple of 3 \n")
+
+def optionThree():
+	print(factorFinder())
+
+def optionFour():
+	triNumList = triangularNumberFinder()
+	print(triangularNumberFinder())
+		
+#method that 
+def optionRunner(choice):
+	while(choice != 5):	#this while statement keeps loop executing till quit
+		if(choice == 0): #this if tree executes the chosen option
+			optionZero()
+		elif(choice == 1):
+			optionOne()
+		elif(choice == 2):
+			optionTwo()
+		elif(choice == 3):
+			optionThree()
+		elif(choice == 4):
+			optionFour()
+		optionRunner(optionSelect())
+		choice = 5
+
+def main():
+	optionRunner(optionSelect())
+	print("Goodbye!")
+main()
