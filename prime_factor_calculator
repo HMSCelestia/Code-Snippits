@@ -1,0 +1,55 @@
+#generates list of all factors including non prime ones
+def factor_generator(num):
+    factors = []
+    for numb in range(num+1):
+        if (numb != 0) and (num%numb == 0):
+            factors.append(numb)
+    return factors
+
+
+#helper method for checking whether or not a value is prime
+def is_prime(n):
+    if len(factor_generator(n)) > 2:
+        return False
+    elif len(factor_generator(n)) > 2:
+        if factor_generator(n)[1]^2 == n:
+            return False
+    return True
+
+#generates list containing many other lists that is difficult to pharse
+def prime_factor(n):
+    #stores variable list-ception.
+    prime_factor_list = []
+    #stores a more manageable version of the information in the above list
+    factors = factor_generator(n)
+
+    if is_prime(n) and n != 1:
+        return n
+
+    #this tree checks the snd to last index and triggers another cycle
+    #if the number at that index isn't prime
+    if not(is_prime(factors[-2])) and factors[-2] > 1:
+        prime_factor_list.append(prime_factor(factors[-2]))
+    else:
+        prime_factor_list.append(factors[-2])
+
+    prime_factor_list.insert(0, factors[1])
+
+    return prime_factor_list
+
+#pharses the information returned by prime_factor
+def prime_factors(n):
+    final_list = []
+    prime_factor_list = prime_factor(n)
+    dank_str = str(prime_factor_list)
+    final_str = ""
+    print(dank_str)
+    for char in dank_str:
+        if char != "[" and char != "]" and char != "," and char != " ":
+            final_str += char
+
+    for num in final_str:
+        final_list.append(int(num))
+
+    return final_list
+    
